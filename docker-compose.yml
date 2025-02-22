@@ -1,0 +1,31 @@
+networks:
+  poc_network:
+
+services:
+  manager:
+    build: .
+    environment:
+        - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/db_example?createDatabaseIfNotExist=true
+        - AWS_ACCESS_KEY_ID=accesskey
+        - AWS_SECRET_ACCESS_KEY=secretkey
+        - AWS_REGION=us-east-1
+        - LOCALSTACK_URL=http://localstack:4566
+        - HTTP_PROXY=
+        - HTTPS_PROXY=
+    command: [ "java", "-jar", "app.jar", "--spring.profiles.active=manager" ]
+    networks:
+      - poc_network
+
+  worker:
+    build: .
+    command: [ "java", "-jar", "app.jar", "--spring.profiles.active=worker" ]
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/db_example?createDatabaseIfNotExist=true
+      - AWS_ACCESS_KEY_ID=accesskey
+      - AWS_SECRET_ACCESS_KEY=secretkey
+      - AWS_REGION=us-east-1
+      - LOCALSTACK_URL=http://localstack:4566
+      - HTTP_PROXY=
+      - HTTPS_PROXY=
+    networks:
+      - poc_network

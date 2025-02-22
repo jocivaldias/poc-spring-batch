@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: poc-spring-batch
+  batch:
+    job:
+      enabled: true
+    jdbc:
+      initialize-schema: always
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: root
+    password: mysql
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  sql:
+    init:
+      platform: mysql
+
+aws:
+  sqs:
+    endpoint: ${LOCALSTACK_URL}
